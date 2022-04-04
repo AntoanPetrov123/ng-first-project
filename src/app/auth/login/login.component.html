@@ -1,0 +1,30 @@
+<form [formGroup]="loginFormGroup"  (ngSubmit)="handleLogin()">
+    <h2>Login Form</h2>
+    <p *ngIf="errorMessage" class="error">{{errorMessage}}</p> <!-- we have to create property errorMessage as string in login.component -->
+  
+    <input formControlName="email" placeholder="Email" name="email">
+    <ng-container *ngIf="loginFormGroup.controls['email'].touched && loginFormGroup.controls['email'].invalid ">
+        <p >
+            Email is required!
+        </p>
+        <p>
+            Email is not valid!
+        </p>
+    </ng-container>
+    
+    <input formControlName="password" type="password" placeholder="*****" name="password">
+    <ng-container *ngIf="loginFormGroup.controls['password'].touched && loginFormGroup.controls['password'].invalid ">
+        <p>
+            Password is required!
+        </p>
+        <p>
+            Password is not valid!
+        </p>
+    </ng-container>
+    <button (click)="loginHandler()">Login</button>
+
+    <p>
+        Do not have an account?
+        <a routerLink="/register">Register</a>
+    </p>
+</form>

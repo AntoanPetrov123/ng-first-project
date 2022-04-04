@@ -1,0 +1,48 @@
+<form [formGroup]="registerFormGroup" (ngSubmit)="handleRegister()">
+    <h2>Register</h2>
+    <input formControlName="username" placeholder="username" type="text" name="username">
+    <ng-container *ngIf="registerFormGroup.controls['username'].touched && registerFormGroup.controls['username'].invalid ">
+        <p>
+            Username is required!
+        </p>
+        <p>
+            Username must be at least 5 characters!
+        </p>
+    </ng-container>
+    <input formControlName="email" placeholder="Email" type="text" name="email">
+    <ng-container *ngIf="registerFormGroup.controls['email'].touched && registerFormGroup.controls['email'].invalid ">
+        <p>
+            Email is required!
+        </p>
+        <p>
+            Email is not valid!
+        </p>
+    </ng-container>
+
+    <div formGroupName="passwords">
+
+    <input formControlName="password" placeholder="*****" type="password" name="password">
+    <ng-container *ngIf="passwordsGroup.controls['password'].touched && passwordsGroup.controls['password'].invalid ">
+        <p>
+            Password is required!
+        </p>
+        <p>
+            Password must be at least 5 characters!
+        </p>
+    </ng-container>
+    <input formControlName="rePassword" placeholder="*****" type="password" name="rePassword">
+    <ng-container *ngIf="passwordsGroup.controls['rePassword'].touched && passwordsGroup.controls['rePassword'].invalid ">
+        <p>
+            Repeat Password does not match password!
+        </p>
+    </ng-container>
+</div>
+
+
+    <button routerLink="/home">Register</button>
+
+    <p>
+        Have an account?
+        <a routerLink="/login">Log In</a>
+    </p>
+</form>

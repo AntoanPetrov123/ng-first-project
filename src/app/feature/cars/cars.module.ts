@@ -4,15 +4,14 @@ import { CarsDetailPageComponent } from './cars-detail-page/cars-detail-page.com
 import { CarsNewPageComponent } from './cars-new-page/cars-new-page.component';
 import { CarsListItemComponent } from './cars-list-item/cars-list-item.component';
 import { CarsPageComponent } from './cars-page/cars-page.component';
-import { BookingListComponent } from './booking-list/booking-list.component';
 import { CarsRoutingModule } from './cars-routing.module';
 import { CatalogComponent } from './catalog/catalog.component';
+import { FormsModule } from '@angular/forms';
 
 
 
 @NgModule({
   declarations: [
-    BookingListComponent,
     CarsListItemComponent,
     CarsPageComponent,
     CarsDetailPageComponent,
@@ -21,7 +20,8 @@ import { CatalogComponent } from './catalog/catalog.component';
   ],
   imports: [
     CommonModule,
-    CarsRoutingModule
+    CarsRoutingModule,
+    FormsModule
   ]
 })
 export class CarsModule { }

@@ -2,7 +2,7 @@ import { CarsPageComponent } from './cars-page/cars-page.component';
 import { CarsNewPageComponent } from './cars-new-page/cars-new-page.component';
 import { CarsDetailPageComponent } from './cars-detail-page/cars-detail-page.component';
 import { RouterModule, Routes } from '@angular/router';
-import { BookingListComponent } from './booking-list/booking-list.component';
+import { CatalogComponent } from './catalog/catalog.component';
 
 const routes: Routes = [
   {
@@ -18,9 +18,10 @@ const routes: Routes = [
     component: CarsDetailPageComponent
   },
   {
-    path: 'booking',
-    component: BookingListComponent
+    path: 'catalog',
+    component: CatalogComponent
   },
+  
   
 ];
 

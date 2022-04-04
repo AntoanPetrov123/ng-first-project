@@ -1,1 +1,43 @@
-<p>cars-new-page works!</p>
+<div>
+    <span>Create a new car post</span>
+</div>
+
+<form #newCarForm="ngForm" (ngSubmit)="submitNewCar(newCarForm)">
+
+    <div>
+        <label for="carName">Title <span class="red">*</span></label>
+        <input #carName="ngModel" type="text" name="carName" ngModel id="carName" required minlength="5">
+        <!-- add validations: required minlength="5" -->
+
+        <!-- <ng-container *ngIf="carName.touched && carName.invalid">
+            <p *ngIf="carName.error.required" class="error">
+                Car name is required.
+            </p>
+            <p *ngIf="carName.error.minlength" class="error">
+                Car name must be at least 5 characters long.
+            </p>
+        </ng-container> -->
+    </div>
+    <div>
+        <label for="postText">Post <span class="red">*</span></label>
+        <!-- add ngModel to be sure that we have name in the input-->
+        <textarea #postText="ngModel" type="text" name="postText" ngModel id="postText" rows="8" class="height" required
+            minlength="10"></textarea>
+
+        <!-- <ng-container *ngIf="postText.touched && postText.invalid">
+        <p *ngIf="postText.error.required"class="error">
+            The field with your post is required.
+        </p>
+        <p *ngIf="postText.error.minlength" class="error">
+            Post must be at least 10 characters long.
+        </p>
+    </ng-container> -->
+    </div>
+    <div>
+        <!-- add type="button" because we dont want to submit filled fields-->
+        <button type="button" (click)="navigateHome()" class="cancel">Cancel</button> 
+        <button [disabled]="newCarForm.invalid" class="public">Post</button>
+    </div>
+
+
+</form>
