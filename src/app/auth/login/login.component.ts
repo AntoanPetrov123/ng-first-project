@@ -32,23 +32,6 @@ export class LoginComponent implements OnInit {
   }
 
   handleLogin(): void {
-    this.errorMessage = '';
-    this.userService.login$(this.loginFormGroup.value).subscribe({
-      next: user => {
-        console.log(user);
-        this.router.navigate(['/home']);
-      },
-      complete: () => {
-        console.log('login stream completed');
-      },
-      error: (err) => {
-        //show message during wrong login data
-        this.errorMessage = err.console.message;
-        //console.error(err);
-      }
-    });
-    console.log('form must be submitted');
-    
   }
 
 }

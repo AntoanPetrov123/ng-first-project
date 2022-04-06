@@ -3,7 +3,7 @@
       <div class="logo-wrap">
         <p class="logo"><span class="logo">Instacar</span></p>
       </div>
-      <div class="mini-navbar" *ngIf="!isLogged">
+      <div class="mini-navbar" >
         <ul>
           <li>
             <a routerLink="/login">Login</a>
@@ -13,14 +13,14 @@
           </li>
         </ul>
       </div>
-      <div class="mini-navbar"  *ngIf="isLogged">
+      <div class="mini-navbar">
   
         <ul>
           <li>
-            <a routerLink="/profile">{{currentUser.username}}'s profile</a>
+            <a routerLink="/profile">username's profile</a>
           </li>
           <li>
-            <a routerLink="/home" (click)="logoutHandler()">Logout</a>
+            <a routerLink="/home" >Logout</a>
           </li>
         </ul>
   
@@ -32,10 +32,10 @@
           <a routerLink="/home">Home</a>
         </li>
         <li>
-          <a routerLink="/catalog">Posts</a>
+          <a routerLink="/catalog">Catalog</a>
         </li>
         <li>
-            <a routerLink="/cars/new">Post a car</a>
+            <a routerLink="/catalog/new">Post a car</a>
         </li>
       </ul>
     </nav>

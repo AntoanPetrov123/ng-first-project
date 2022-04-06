@@ -12,16 +12,8 @@ export class CarsService {
 
   constructor(private http: HttpClient) { }
 
-  addCar$(body: {carName: string, postText: string}): Observable<ICar> {
-    return this.http.post<ICar>(`${apiUrl}/cars`, body, { withCredentials: true });
-  }
-
-  loadCarList(): Observable<ICar[]> {
-    return this.http.get<ICar[]>(`${apiUrl}/cars`);
+  getCars(): void {
+    
   }
   
-                            //here should be <ICar<IPost>>
-  loadCarById(id: string): Observable<ICar[]> {
-    return this.http.get<ICar[]>(`${apiUrl}/cars/${id}`);
-  }
 }

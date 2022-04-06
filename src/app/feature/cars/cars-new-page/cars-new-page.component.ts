@@ -1,7 +1,8 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { NgForm } from '@angular/forms';
-import { CarsService } from 'src/app/core/cars.service';
+import { map } from 'rxjs/operators'
+import { ICar } from 'src/app/core/interfaces';
 
 
 @Component({
@@ -11,25 +12,47 @@ import { CarsService } from 'src/app/core/cars.service';
 })
 export class CarsNewPageComponent implements OnInit {
 
-  constructor(private router: Router, private carsService: CarsService) { }
+  loadedPosts: ICar[] = [];
+
+  constructor(private router: Router, private http: HttpClient) { }
 
   ngOnInit(): void {
+    this.fetchPosts();
   }
 
-  submitNewCar(newCarForm: NgForm): void {
-    console.log(newCarForm.value); //show neme and description after new car submition
-    this.carsService.addCar$(newCarForm.value).subscribe({
-      next: (car) => {
-        console.log(car);
-        this.router.navigate(['/cars']); //navigate to cagalog of cars after creating one
-      },
-      error: (error) => {
-        console.error(error);
-      }
-    });
+  onCreatePost(postData: ICar): void {
+    this.http.post('https://instacar-project-ee1a1-default-rtdb.firebaseio.com/cars.json',
+      postData).subscribe(responseData => {
+        console.log(responseData);
+      });
+    // console.log(postData);
+  }
+
+  onFetchPosts() {
+    this.fetchPosts();
   }
 
   navigateHome() {
     this.router.navigate(['/home']);
+  }
+
+  private fetchPosts() {
+    this.http.get<{ [key: string]: ICar }>('https://instacar-project-ee1a1-default-rtdb.firebaseio.com/cars.json')
+      .pipe(
+        map(responseData => {
+         const postArray: ICar[] = [];
+        for (const key in responseData) {
+          if (responseData.hasOwnProperty(key)) {
+            postArray.push({ ...responseData[key], id: key });
+          }
+        }
+        return postArray;
+      })
+      )
+      .subscribe(posts => {
+        console.log(posts);
+        
+        this.loadedPosts = posts;
+      });
   }
 }

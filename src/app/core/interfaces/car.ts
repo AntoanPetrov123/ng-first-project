@@ -1,9 +1,5 @@
-import { IBase } from './base';
-import { IUser } from './user';
-
-export interface ICar extends IBase {
-  subscribers: string[];
-  posts: string[];
+export interface ICar {
   carName: string;
-  userId: IUser;
+  description: string;
+  id?: string;
 }
