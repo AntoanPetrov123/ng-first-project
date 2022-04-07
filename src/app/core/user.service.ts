@@ -24,6 +24,9 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
+  logout() {
+    this.user.next(null);
+  }
   register(username: string, email: string, password: string, rePassword: string) {
     return this.http
       .post<RegisterResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDTU2lv0sZ-kvLAhaKSX_afxkJLnCD505o',

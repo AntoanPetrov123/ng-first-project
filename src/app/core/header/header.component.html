@@ -32,7 +32,7 @@
           <a routerLink="/profile">username's profile</a>
         </li>
         <li *ngIf="isLoggedIn">
-          <a routerLink="/home" >Logout</a>
+          <a routerLink="/home" (click)="onLogout()" >Logout</a>
         </li>
       </ul>
     </nav>
