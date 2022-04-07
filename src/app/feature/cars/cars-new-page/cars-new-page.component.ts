@@ -1,7 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { map } from 'rxjs/operators'
+import { CarsService } from 'src/app/core/cars.service';
 import { ICar } from 'src/app/core/interfaces';
 
 
@@ -12,47 +13,40 @@ import { ICar } from 'src/app/core/interfaces';
 })
 export class CarsNewPageComponent implements OnInit {
 
-  loadedPosts: ICar[] = [];
-
-  constructor(private router: Router, private http: HttpClient) { }
+  loadedCarPosts: ICar[] = [];
+  isLoading: boolean = false;
+  
+  constructor(private router: Router, private carsServise: CarsService) { }
 
   ngOnInit(): void {
-    this.fetchPosts();
+    this.isLoading = true;
+    this.carsServise.fetchCarPosts().subscribe(posts => {
+      console.log(posts);
+      this.isLoading = false;
+      this.loadedCarPosts = posts;
+
+    });
   }
 
-  onCreatePost(postData: ICar): void {
-    this.http.post('https://instacar-project-ee1a1-default-rtdb.firebaseio.com/cars.json',
-      postData).subscribe(responseData => {
-        console.log(responseData);
-      });
-    // console.log(postData);
+  onCreateCarPost(postData: ICar): void {
+    this.carsServise.createAndStoreCarPost(postData.carName, postData.image, postData.description);
   }
 
-  onFetchPosts() {
-    this.fetchPosts();
+  onFetchCarPosts() {
+
+    this.isLoading = true;
+    this.carsServise.fetchCarPosts().subscribe(posts => {
+      console.log(posts);
+      this.isLoading = false;
+      this.loadedCarPosts = posts;
+    });
   }
+
+  // onDeleteCarPost(item: ICar) {
+  //   this.carsServise.deleteCarPost(item);
+  // }
 
   navigateHome() {
     this.router.navigate(['/home']);
-  }
-
-  private fetchPosts() {
-    this.http.get<{ [key: string]: ICar }>('https://instacar-project-ee1a1-default-rtdb.firebaseio.com/cars.json')
-      .pipe(
-        map(responseData => {
-         const postArray: ICar[] = [];
-        for (const key in responseData) {
-          if (responseData.hasOwnProperty(key)) {
-            postArray.push({ ...responseData[key], id: key });
-          }
-        }
-        return postArray;
-      })
-      )
-      .subscribe(posts => {
-        console.log(posts);
-        
-        this.loadedPosts = posts;
-      });
   }
 }

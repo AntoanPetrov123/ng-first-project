@@ -1,45 +1,49 @@
-<form [formGroup]="registerFormGroup" (ngSubmit)="handleRegister()">
+<form [formGroup]="registerFormGroup" (ngSubmit)="handleRegister(registerFormGroup)">
     <h2>Register</h2>
+    <p *ngIf="errorMessage" class="error">{{errorMessage}}</p>
     <input formControlName="username" placeholder="username" type="text" name="username">
-    <ng-container *ngIf="registerFormGroup.controls['username'].touched && registerFormGroup.controls['username'].invalid ">
-        <p>
+    <ng-container
+        *ngIf="registerFormGroup.controls['username'].touched && registerFormGroup.controls['username'].invalid ">
+        <p *ngIf="registerFormGroup.controls['username'].errors.required" class="error">
             Username is required!
         </p>
-        <p>
-            Username must be at least 5 characters!
+        <p *ngIf="registerFormGroup.controls['username'].errors.minlength" class="error">
+            Username must be at least 6 characters!
         </p>
     </ng-container>
     <input formControlName="email" placeholder="Email" type="text" name="email">
     <ng-container *ngIf="registerFormGroup.controls['email'].touched && registerFormGroup.controls['email'].invalid ">
-        <p>
+        <p *ngIf="registerFormGroup.controls['email'].errors.required" class="error">
             Email is required!
         </p>
-        <p>
+        <p *ngIf="registerFormGroup.controls['email'].errors.email" class="error">
             Email is not valid!
         </p>
     </ng-container>
 
     <div formGroupName="passwords">
 
-    <input formControlName="password" placeholder="*****" type="password" name="password">
-    <ng-container *ngIf="passwordsGroup.controls['password'].touched && passwordsGroup.controls['password'].invalid ">
-        <p>
-            Password is required!
-        </p>
-        <p>
-            Password must be at least 5 characters!
-        </p>
-    </ng-container>
-    <input formControlName="rePassword" placeholder="*****" type="password" name="rePassword">
-    <ng-container *ngIf="passwordsGroup.controls['rePassword'].touched && passwordsGroup.controls['rePassword'].invalid ">
-        <p>
-            Repeat Password does not match password!
-        </p>
-    </ng-container>
-</div>
+        <input formControlName="password" placeholder="*****" type="password" name="password">
+        <ng-container
+            *ngIf="shouldShowErrorForControl('password', passwordsGroup)">
+            <p *ngIf="passwordsGroup.controls['password'].errors.required" class="error">
+                Password is required!
+            </p>
+            <p *ngIf="passwordsGroup.controls.password.errors.minlength"  class="error">
+                Password must be at least 6 characters!
+            </p>
+        </ng-container>
+        <input formControlName="rePassword" placeholder="*****" type="password" name="rePassword">
+        <ng-container
+        *ngIf="shouldShowErrorForControl('rePassword', passwordsGroup)">
+            <p *ngIf="passwordsGroup.controls['rePassword'].errors.passwordMissmatch" class="error">
+                Repeat Password does not match password!
+            </p>
+        </ng-container>
+    </div>
 
 
-    <button routerLink="/home">Register</button>
+    <button [disabled]="registerFormGroup.invalid">Register</button>
 
     <p>
         Have an account?
