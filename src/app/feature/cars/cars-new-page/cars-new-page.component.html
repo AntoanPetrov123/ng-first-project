@@ -7,20 +7,25 @@
     <div>
         <label>Title</label>
         <input #carName="ngModel" type="text" name="carName" ngModel id="carName" required minlength="3">
-        <!-- add validations: required minlength="5" -->
+        <!-- add validations: required minlength="3" -->
 
         <ng-container *ngIf="carName.touched && carName.invalid">
-            <p *ngIf="carName.errors.required" class="error">
+            <p *ngIf="carName.errors.required">
                 Car name is required.
             </p>
-            <p *ngIf="carName.errors.minlength" class="error">
+            <p *ngIf="carName.errors.minlength">
                 Car name must be at least 3 characters long.
             </p>
         </ng-container>
     </div>
     <div>
         <label>Photo</label>
-        <input #image="ngModel" type="text" class="inputFields" id="image" ngModel placeholder="http:/..." name="image" value="" />
+        <input #image="ngModel" type="text" class="inputFields" id="image" ngModel placeholder="http://..." name="image" value="" required/>
+        <ng-container *ngIf="image.touched  && image.invalid">
+            <p *ngIf="image.errors.required" >
+                Car image is required.
+            </p>
+        </ng-container>
     </div>
     <div>
         <label>Post</label>
@@ -29,18 +34,18 @@
             required minlength="10"></textarea>
 
             <ng-container *ngIf="description.touched && description.invalid">
-                <p *ngIf="description.errors.required" class="error">
-                    Car name is required.
+                <p *ngIf="description.errors.required" >
+                    Description is required.
                 </p>
-                <p *ngIf="description.errors.minlength" class="error">
-                    Car name must be at least 5 characters long.
+                <p *ngIf="description.errors.minlength">
+                    Description be at least 5 characters long.
                 </p>
             </ng-container>
     </div>
     <div>
         <!-- add type="button" because we dont want to submit filled fields -->
-        <button type="button" (click)="navigateHome()" class="cancel">Cancel</button>
-        <button [disabled]="newCarForm.invalid" class="public">Post</button>
+        <button type="button" (click)="navigateHome()" >Cancel</button>
+        <button [disabled]="newCarForm.invalid" >Post</button>
     </div>
     
 

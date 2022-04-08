@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserService } from 'src/app/core/user.service';
 
 @Component({
   selector: 'app-catalog-page',
@@ -7,8 +8,10 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CatalogPageComponent implements OnInit {
 
-  constructor() { }
+  
 
+  constructor() {
+  }
   ngOnInit(): void {
   }
 
