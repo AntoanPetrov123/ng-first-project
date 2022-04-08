@@ -40,18 +40,8 @@
     <div>
         <!-- add type="button" because we dont want to submit filled fields -->
         <button type="button" (click)="navigateHome()" class="cancel">Cancel</button>
-        <button [disabled]="newCarForm.invalid" (click)="onFetchCarPosts()" class="public">Post</button>
+        <button [disabled]="newCarForm.invalid" class="public">Post</button>
     </div>
-    <div>
-             <p *ngIf="loadedCarPosts.length < 1 && !isLoading"> No posts!</p>
-        <ul *ngIf="loadedCarPosts.length >= 1 && !isLoading">
-            <li *ngFor="let post of loadedCarPosts">
-                <h3>{{post.carName}}</h3>
-                <img src="{{post.image}}">
-                <h5>{{post.description}}</h5>
-            </li>
-        </ul>
-        <p *ngIf="isLoading">Loading...</p>
-    </div>
+    
 
 </form>

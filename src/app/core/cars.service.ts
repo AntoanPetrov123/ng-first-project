@@ -2,19 +2,26 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { ICar } from './interfaces';
 import { map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable()
 
 export class CarsService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
-  createAndStoreCarPost(carName: string, image: string, description: string) {
+  createAndStoreCarPost(carName: string, image: string, description: string): void {
     const postData: ICar = { carName: carName, image: image, description: description};
 
     this.http.post('https://instacar-project-ee1a1-default-rtdb.firebaseio.com/cars.json',
-    postData).subscribe(responseData => {
-      console.log(responseData, 'response');
+    postData).subscribe({
+      next: (car) => {
+        console.log(car);
+        this.router.navigate(['/catalog']);
+      },
+      error: (error) => {
+        console.error(error);
+      }
     });
   // console.log(postData);
   }

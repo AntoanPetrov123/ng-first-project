@@ -1,12 +1,11 @@
-<!-- <form>
-    <div>
-        <p *ngIf="loadedCarPosts.length < 1"> No posts!</p>
-        <ul *ngIf="loadedCarPosts.length >= 1">
-            <li *ngFor="let post of loadedCarPosts">
-                <h1>{{post.carName}}</h1>
-                <p>{{post.description}}</p>
-            </li>
-        </ul>
-    </div>
-</form> -->
-    
+<div>
+    <p *ngIf="loadedCarPosts.length < 1 && !isLoading"> No posts!</p>
+<ul *ngIf="loadedCarPosts.length >= 1 && !isLoading">
+   <li *ngFor="let post of loadedCarPosts">
+       <h3>{{post.carName}}</h3>
+       <img src="{{post.image}}">
+       <h5>{{post.description}}</h5>
+   </li>
+</ul>
+<p *ngIf="isLoading">Loading...</p>
+</div>

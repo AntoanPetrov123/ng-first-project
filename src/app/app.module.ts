@@ -14,7 +14,7 @@ import { PagesModule } from './feature/pages/pages.module';
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
   ],
   imports: [
     BrowserModule,

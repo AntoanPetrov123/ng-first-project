@@ -7,6 +7,7 @@ import { CarsRoutingModule } from './cars-routing.module';
 import { CatalogComponent } from './catalog/catalog.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { CatalogPageComponent } from './catalog-page/catalog-page.component';
 
 
 
@@ -15,7 +16,8 @@ import { HttpClientModule } from '@angular/common/http';
     CarsListItemComponent,
     CarsDetailPageComponent,
     CarsNewPageComponent,
-    CatalogComponent
+    CatalogComponent,
+    CatalogPageComponent
   ],
   imports: [
     CommonModule,
