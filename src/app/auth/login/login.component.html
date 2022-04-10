@@ -1,6 +1,6 @@
-<form [formGroup]="loginFormGroup"  (ngSubmit)="handleLogin(loginFormGroup)">
+<!-- <form [formGroup]="loginFormGroup"  (ngSubmit)="handleLogin(loginFormGroup)">
     <h2>Login Form</h2>
-    <p *ngIf="errorMessage" class="error">{{errorMessage}}</p> <!-- we have to create property errorMessage as string in login.component -->
+    <p *ngIf="errorMessage" class="error">{{errorMessage}}</p>
   
     <input formControlName="email" placeholder="Email" name="email">
     <ng-container *ngIf="loginFormGroup.controls['email'].touched && loginFormGroup.controls['email'].invalid ">
@@ -27,4 +27,56 @@
         Do not have an account?
         <a routerLink="/register">Register</a>
     </p>
-</form>
+</form> -->
+<form [formGroup]="loginFormGroup" (ngSubmit)="handleLogin(loginFormGroup)" class="form py-5">
+    <h2 class="h3 mb-3 font-weight-normal">Login</h2>
+  
+    <p *ngIf="errorMessage" class="error invalid-feedback">{{errorMessage}}</p>
+  
+    <!-- we have to create property errorMessage as string in login.component -->
+    <div class="form-group mb-3">
+      <input
+        formControlName="email"
+        placeholder="Email"
+        name="email"
+        class="form-control"
+        [class.is-invalid]="loginFormGroup.controls['email'].touched && loginFormGroup.controls['email'].invalid"
+      >
+      <ng-container *ngIf="loginFormGroup.controls['email'].touched && loginFormGroup.controls['email'].invalid ">
+        <p *ngIf="loginFormGroup.controls['email'].errors.required" class="error invalid-feedback">
+          Email is required!
+        </p>
+        <p *ngIf="loginFormGroup.controls['email'].errors.email" class="error invalid-feedback">
+          Email is not valid!
+        </p>
+      </ng-container>
+    </div>
+  
+    <div class="form-group mb-3">
+      <input
+        formControlName="password"
+        type="password"
+        placeholder="***"
+        name="password"
+        class="form-control"
+        [class.is-invalid]="loginFormGroup.controls['password'].touched && loginFormGroup.controls['password'].invalid"
+      >
+      <ng-container *ngIf="loginFormGroup.controls['password'].touched && loginFormGroup.controls['password'].invalid">
+        <p *ngIf="loginFormGroup.controls['password'].errors.required" class="error invalid-feedback">
+          Password is required!
+        </p>
+        <p *ngIf="loginFormGroup.controls['password'].errors.minlength" class="error invalid-feedback">
+          Password is not valid!
+        </p>
+      </ng-container>
+    </div>
+  
+    <button [disabled]="loginFormGroup.invalid" (click)="loginHandler()" class="btn w-100 btn-primary">
+      Login
+    </button>
+  
+    <p class="mt-5 mb-3 text-muted text-center">
+      Do not have an account?
+      <a routerLink="/register">Register</a>
+    </p>
+  </form>

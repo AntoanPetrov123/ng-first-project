@@ -1,4 +1,4 @@
-<form [formGroup]="registerFormGroup" (ngSubmit)="handleRegister(registerFormGroup)">
+<!-- <form [formGroup]="registerFormGroup" (ngSubmit)="handleRegister(registerFormGroup)">
     <h2>Register</h2>
     <p *ngIf="errorMessage" class="error">{{errorMessage}}</p>
     <input formControlName="username" placeholder="username" type="text" name="username">
@@ -49,4 +49,94 @@
         Have an account?
         <a routerLink="/login">Log In</a>
     </p>
-</form>
+</form> -->
+
+<form [formGroup]="registerFormGroup" (ngSubmit)="handleRegister(registerFormGroup)" class="form py-5">
+    <h2 class="h3 mb-3 font-weight-normal">Register</h2>
+  
+    <p *ngIf="errorMessage" class="error">{{errorMessage}}</p>
+  
+    <div class="form-group mb-3">
+      <input
+        formControlName="username"
+        placeholder="username"
+        type="text"
+        name="username"
+        class="form-control"
+        [class.is-invalid]="registerFormGroup.controls['username'].touched && registerFormGroup.controls['username'].invalid"
+      >
+      <ng-container
+        *ngIf="registerFormGroup.controls['username'].touched && registerFormGroup.controls['username'].invalid">
+        <p *ngIf="registerFormGroup.controls['username'].errors.required" class="error invalid-feedback">
+          Username is required!
+        </p>
+        <p *ngIf="registerFormGroup.controls['username'].errors.minlength" class="error invalid-feedback">
+          Username must be at least 6 characters!
+        </p>
+      </ng-container>
+    </div>
+  
+    <div class="form-group mb-3">
+      <input
+        formControlName="email"
+        placeholder="Email"
+        type="text"
+        name="email"
+        class="form-control"
+        [class.is-invalid]="registerFormGroup.controls['email'].touched && registerFormGroup.controls['email'].invalid"
+      >
+      <ng-container *ngIf="registerFormGroup.controls['email'].touched && registerFormGroup.controls['email'].invalid">
+        <p *ngIf="registerFormGroup.controls['email'].errors.required" class="error invalid-feedback">
+          Email is required!
+        </p>
+        <p *ngIf="registerFormGroup.controls['email'].errors.email" class="error invalid-feedback">
+          Email is not valid!
+        </p>
+      </ng-container>
+    </div>
+  
+    <div formGroupName="passwords">
+      <div class="form-group mb-3">
+        <input
+          formControlName="password"
+          placeholder="***"
+          type="password"
+          name="password"
+          class="form-control"
+          [class.is-invalid]="shouldShowErrorForControl('password', passwordsGroup)"
+        >
+        <ng-container
+          *ngIf="shouldShowErrorForControl('password', passwordsGroup)">
+          <p *ngIf="passwordsGroup.controls['password'].errors.required" class="error invalid-feedback">
+            Password is required!
+          </p>
+          <p *ngIf="passwordsGroup.controls.password.errors.minlength" class="error invalid-feedback">
+            Password must be at least 6 characters!
+          </p>
+        </ng-container>
+      </div>
+      <div class="form-group mb-3">
+        <input
+          formControlName="rePassword"
+          placeholder="***"
+          type="password"
+          name="rePassword"
+          class="form-control"
+          [class.is-invalid]="shouldShowErrorForControl('rePassword', passwordsGroup)"
+        >
+        <ng-container
+          *ngIf="shouldShowErrorForControl('rePassword', passwordsGroup)">
+          <p *ngIf="passwordsGroup.controls['rePassword'].errors.passwordMissmatch" class="error invalid-feedback">
+            Repeat Password does not match password!
+          </p>
+        </ng-container>
+      </div>
+    </div>
+  
+    <button [disabled]="registerFormGroup.invalid" class="btn w-100 btn-primary">Register</button>
+  
+    <p class="mt-5 mb-3 text-muted text-center">
+      Have an account?
+      <a routerLink="/login">Log In</a>
+    </p>
+  </form>
