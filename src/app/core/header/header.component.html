@@ -1,38 +1,38 @@
-<header>
-    <div class="mini-navbar-wrap">
-      <div class="logo-wrap">
-        <p class="logo"><span class="logo">Instacar</span></p>
+<header [style]="{backgroundColor:'#ff6400'}">
+    <div class="container navbar navbar-expand-lg navbar-dark">
+      <div class="navbar-brand">
+        <img [style]="{ height: '46px' }" src="../../../assets/logo.png" alt="IstaCAR">
       </div>
-      <div *ngIf="!isLoggedIn" >
-        <ul>
-          <li>
-            <a routerLink="/home">Home</a>
+      <div *ngIf="!isLoggedIn" class="collapse navbar-collapse">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" routerLink="/home">Home</a>
           </li>
-          <li *ngIf="!isLoggedIn">
-            <a routerLink="/login">Login</a>
-          </li>
-          <li *ngIf="!isLoggedIn">
-            <a routerLink="/register">Register</a>
+          <li *ngIf="!isLoggedIn" class="nav-item">
+            <a class="nav-link" routerLink="/login">Login</a>
+          </li >
+          <li *ngIf="!isLoggedIn" class="nav-item">
+            <a class="nav-link" routerLink="/register">Register</a>
           </li>
         </ul>
       </div>
     </div>
-    <nav *ngIf="isLoggedIn">
-      <ul>
-        <li *ngIf="isLoggedIn">
-          <a routerLink="/home" >Home</a>
+    <nav *ngIf="isLoggedIn" class="collapse navbar-collapse">
+      <ul class="navbar-nav">
+        <li *ngIf="isLoggedIn" class="nav-item">
+          <a class="nav-link" routerLink="/home" >Home</a>
         </li>
-        <li *ngIf="isLoggedIn">
-          <a routerLink="/catalog">Catalog</a>
+        <li *ngIf="isLoggedIn" class="nav-item">
+          <a class="nav-link" routerLink="/catalog">Catalog</a>
         </li>
-        <li *ngIf="isLoggedIn">
-            <a routerLink="/catalog/new">Post a car</a>
+        <li *ngIf="isLoggedIn" class="nav-item">
+            <a class="nav-link" routerLink="/catalog/new">Post a car</a>
         </li>
-        <li *ngIf="isLoggedIn">
-          <a routerLink="/profile">username's profile</a>
+        <li *ngIf="isLoggedIn" class="nav-item">
+          <a class="nav-link" routerLink="/profile">username's profile</a>
         </li>
-        <li *ngIf="isLoggedIn">
-          <a routerLink="/home" (click)="onLogout()" >Logout</a>
+        <li *ngIf="isLoggedIn" class="nav-item">
+          <a class="nav-link" routerLink="/home" (click)="onLogout()" >Logout</a>
         </li>
       </ul>
     </nav>
