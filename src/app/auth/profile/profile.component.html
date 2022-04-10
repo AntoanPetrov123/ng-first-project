@@ -1,5 +1,27 @@
-<div>Username</div>
+    <h3>User Info:</h3>
 
-<li>photo 1</li>
-<li>photo 2</li>
-<li>photo 3</li>
+    <ng-container>
+        <ng-container *ngIf="!isInEditMode">
+            
+            <div class="flex">
+                <p>Email: </p>
+                <p>{{user.email}}</p>
+            </div>
+            
+
+            <button (click)="enterEditMode()" class="edit-button">Edit</button>
+        </ng-container>
+
+        <ng-container *ngIf="isInEditMode">
+            <form #editProfileForm="ngForm" (ngSubmit)="updateProfile()">
+                
+                <div class="flex">
+                    <p>Email: </p>
+                    <input #email="ngModel" [class.input-error]="email.touched && email.invalid" type="email" name="email" id="email" ngModel required emailValidator value="john.doe@gmail.com">
+                </div>
+                
+                <button type="button" (click)="isInEditMode = false" class="red-button">Cancel</button>
+                <button  [disabled]="editProfileForm.invalid" class="green-button">Save</button>
+            </form>
+        </ng-container>
+    </ng-container>

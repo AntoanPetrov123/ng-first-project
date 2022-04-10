@@ -41,13 +41,14 @@ export class LoginComponent implements OnInit {
     const password = loginFormGroup.value.password;
 
     this.userService.login(email, password).subscribe(responseData => {
-      this.router.navigate['/home']; //fix this
       console.log(responseData);
     },
     errorMessage => {
       console.log(errorMessage);
       this.errorMessage = errorMessage;
     });
+    loginFormGroup.reset();
+
   }
 
 }

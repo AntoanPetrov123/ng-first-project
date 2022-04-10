@@ -29,7 +29,7 @@ export class CarsNewPageComponent implements OnInit {
 
   onCreateCarPost(postData: ICar): void {
     this.carsService
-    .createAndStoreCarPost(postData.carName, postData.image, postData.description);
+    .createAndStoreCarPost(postData.carName, postData.image, postData.description, postData.likes);
   }
 
   navigateHome() {

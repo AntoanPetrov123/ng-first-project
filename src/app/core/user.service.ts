@@ -1,8 +1,9 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { catchError, tap } from 'rxjs/operators';
-import { throwError, BehaviorSubject } from 'rxjs';
-import { IUser } from './interfaces';
+import { catchError, map, tap } from 'rxjs/operators';
+import { throwError, BehaviorSubject, Observable } from 'rxjs';
+import { User } from './interfaces';
+import { Router } from '@angular/router';
 
 
 interface RegisterResponseData { //response data from firebase
@@ -18,34 +19,57 @@ interface RegisterResponseData { //response data from firebase
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
-  user = new BehaviorSubject<IUser>(null); //get access to the current active user; null starting value
+  user = new BehaviorSubject<User>(null); //get access to the current active user; null starting value
   token: string = null;
 
+  isLoggedIn = this.user.pipe(map(user => !!user));
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private router: Router) { }
 
   logout() {
     this.user.next(null);
   }
-  register(username: string, email: string, password: string, rePassword: string) {
+  register(username: string, email: string, password: string) {
     return this.http
       .post<RegisterResponseData>('https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDTU2lv0sZ-kvLAhaKSX_afxkJLnCD505o',
         {
           username: username,
           email: email,
           password: password,
-          rePassword: rePassword,
           returnSecureToken: true //always should be true
         })
       .pipe(
         catchError(this.handleError),
         tap(resData => {
-          this.handleAuthentication(
-            resData.email,
-            resData.localId,
-            resData.idToken,
-            +resData.expiresIn //convert in number
-          );
+          this.http.post('https://instacar-project-ee1a1-default-rtdb.firebaseio.com/users.json',
+            {
+              userId: resData.localId,
+              username: username,
+              posts: [],
+              email: email,
+            }).subscribe({
+              next: (user: any) => {
+                this.http.get(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/users/${user.name}.json`).subscribe({
+                  next: (data: any) => {
+
+                    this.handleAuthentication(
+                      resData.email,
+                      resData.localId,
+                      data.id,
+                      [],
+                      resData.idToken,
+                      +resData.expiresIn //convert in number
+                    );
+                  }
+                });
+              },
+              error: (error) => {
+                console.log(error);
+              }
+            });
+
         })
       )
       ;
@@ -61,12 +85,22 @@ export class UserService {
         }).pipe(
           catchError(this.handleError),
           tap(resData => {
-            this.handleAuthentication(
-              resData.email,
-              resData.localId,
-              resData.idToken,
-              +resData.expiresIn
-            );
+            this.http.get(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/users.json`).subscribe({
+              next: (data: any) => {
+                const user: any = Object.values(data).find((profile: any) => {
+                  return profile.email = resData.email;
+                })
+                this.handleAuthentication(
+                  resData.email,
+                  resData.localId,
+                  user.id,
+                  user.posts || [],
+                  resData.idToken,
+                  +resData.expiresIn
+                );
+                this.router.navigate['/home'];
+              } 
+            })
           })
         );
   }
@@ -74,12 +108,14 @@ export class UserService {
   private handleAuthentication(
     email: string,
     userId: string,
+    profileId: string,
+    posts: string[] = [],
     token: string,
     expiresIn: number
   ) {
     //string but give us exparation date in miliseconds
     const expirationDate = new Date(new Date().getTime() + expiresIn * 1000); //Data() convert to date object
-    const user = new IUser(email, userId, token, expirationDate);
+    const user = new User(email, userId, profileId, posts, token, expirationDate);
     this.user.next(user);
   }
 
@@ -100,6 +136,10 @@ export class UserService {
         break;
     }
     return throwError(errorMessage);
+  }
+
+  getProfile() { //Observable<IUser>
+    return this.http.get<User>('/profile');
   }
 
 }
