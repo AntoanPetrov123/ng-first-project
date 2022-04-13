@@ -150,13 +150,5 @@ export class UserService {
     })
 
   }
-
-  getProfile() { //Observable<IUser>
-    // this.user.subscribe((data) => {
-    //   const currentUserId: string = data.id;
-    // return this.http.get<{ [key: string]: ICar }>(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/cars/${currentUserId}.json`);
-    // });
-  }
-
 }
 

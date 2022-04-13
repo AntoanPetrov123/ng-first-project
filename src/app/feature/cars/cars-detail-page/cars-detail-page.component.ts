@@ -36,7 +36,7 @@ export class CarsDetailPageComponent implements OnInit {
       const carId: string = params.carId;
       this.carId = carId;
       this.userService.user.subscribe((userData) => {
-        if(userData && userData.posts && userData.posts.includes(carId)){
+        if (userData && userData.posts && userData.posts.includes(carId)) {
           this.canEdit = true;
         }
       })
@@ -73,27 +73,27 @@ export class CarsDetailPageComponent implements OnInit {
   onEditCarPost(postData: ICar): void {
 
     //11.04
-    
-    
-      // console.log(postData);
 
-      // return;
-      
-      this.http.put(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/cars/${this.carId}.json`,
-        postData).subscribe({
-          next: (car) => {
-            console.log(car, 'from post');
-            this.updateProfile();
-            // this.isInEditMode = false;
-          },
-          error: (error) => {
-            console.error(error);
-          }
-        });
+
+    // console.log(postData);
+
+    // return;
+
+    this.http.put(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/cars/${this.carId}.json`,
+      postData).subscribe({
+        next: (car) => {
+          console.log(car, 'from post');
+          this.updateProfile();
+          // this.isInEditMode = false;
+        },
+        error: (error) => {
+          console.error(error);
+        }
+      });
   }
 
   updateProfile(): void {
-    
+
     this.carsService.loadCarById(this.carId).subscribe({
       next: (params) => {
         this.currentCar = params;
@@ -106,7 +106,5 @@ export class CarsDetailPageComponent implements OnInit {
 
     this.isInEditMode = false;
   }
-  
-
 
 }

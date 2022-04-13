@@ -1,27 +1,15 @@
-    <h3>User Info:</h3>
+    <h3>My Posts:</h3>
 
-    <ng-container>
-        <ng-container *ngIf="!isInEditMode">
-            
-            <div class="flex">
-                <p>Email: </p>
-                <!-- <p>{{user.email}}</p> -->
-            </div>
-            
-
-            <button (click)="enterEditMode()" class="edit-button">Edit</button>
-        </ng-container>
-
-        <ng-container *ngIf="isInEditMode">
-            <form #editProfileForm="ngForm" (ngSubmit)="updateProfile()">
-                
-                <div class="flex">
-                    <p>Email: </p>
-                    <input #email="ngModel" [class.input-error]="email.touched && email.invalid" type="email" name="email" id="email" ngModel required emailValidator value="john.doe@gmail.com">
-                </div>
-                
-                <button type="button" (click)="isInEditMode = false" class="red-button">Cancel</button>
-                <button  [disabled]="editProfileForm.invalid" class="green-button">Save</button>
-            </form>
-        </ng-container>
-    </ng-container>
+   <div>
+        <p *ngIf="isEmpty"> No posts!</p>
+    <ul *ngIf="!isEmpty">
+       <li *ngFor="let post of loadedCars">
+           <h3>{{post.carName}}</h3>
+           <img src="{{post.image}}">
+           <h5>{{post.description}}</h5>
+           <button routerLink="/catalog/{{post.id}}">Edit</button>
+       </li>
+    </ul>
+    <!-- <p *ngIf="isLoading">Loading...</p> -->
+    </div> 
+    

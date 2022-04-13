@@ -62,8 +62,10 @@
     </div>
     <div>
         <!-- add type="button" because we dont want to submit filled fields -->
-        <button type="button">Cancel</button>
+        <button type="button" routerLink="/catalog">Cancel</button>
         <button [disabled]="newCarForm.invalid" >Save</button>
+        <button type="button" routerLink="/profile">View in profile</button>
+
     </div>
     
 
