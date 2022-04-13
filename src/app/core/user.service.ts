@@ -2,7 +2,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, tap } from 'rxjs/operators';
 import { throwError, BehaviorSubject, Observable } from 'rxjs';
-import { User } from './interfaces';
+import { ICar, User } from './interfaces';
 import { Router } from '@angular/router';
 
 
@@ -87,9 +87,14 @@ export class UserService {
           tap(resData => {
             this.http.get(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/users.json`).subscribe({
               next: (data: any) => {
-                const user: any = Object.values(data).find((profile: any) => {
-                  return profile.email = resData.email;
-                })
+                let userId: string;
+                Object.entries(data).find(([id, profile]) => {
+                  if((profile as any).email == resData.email) {
+                    userId = id;
+                }})
+                const user = {...data[userId], id: userId};
+                console.log(user, 'new user');
+
                 this.handleAuthentication(
                   resData.email,
                   resData.localId,
@@ -99,7 +104,7 @@ export class UserService {
                   +resData.expiresIn
                 );
                 this.router.navigate['/home'];
-              } 
+              }
             })
           })
         );
@@ -138,8 +143,19 @@ export class UserService {
     return throwError(errorMessage);
   }
 
+  updatePosts(posts: string[]) {
+    this.user.subscribe((userData: any) => {
+
+      this.user.next({ ...userData, posts });
+    })
+
+  }
+
   getProfile() { //Observable<IUser>
-    return this.http.get<User>('/profile');
+    // this.user.subscribe((data) => {
+    //   const currentUserId: string = data.id;
+    // return this.http.get<{ [key: string]: ICar }>(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/cars/${currentUserId}.json`);
+    // });
   }
 
 }

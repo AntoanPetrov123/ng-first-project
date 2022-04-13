@@ -4,8 +4,8 @@ export class User {
     public id: string,
     public profileId: string,
     public posts: string[],
-    private _token: string,
-    private _tokenExpirationDate: Date //expire token date
+    public _token: string,
+    public _tokenExpirationDate: Date //expire token date
   ) {}
 
 //we can use getter function like User.tokens

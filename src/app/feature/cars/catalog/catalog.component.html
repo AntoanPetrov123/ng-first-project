@@ -5,8 +5,9 @@
        <h3>{{post.carName}}</h3>
        <img src="{{post.image}}">
        <h5>{{post.description}}</h5>
-       <button>Like: </button><h5>{{post.likes}}</h5>
+       <button>Like</button><h5>{{post.likes}}</h5>
        <!-- <mat-divider [inset]="true"></mat-divider> -->
+       <button (click)="details(post.id)">Details</button>
    </li>
 </ul>
 <p *ngIf="isLoading">Loading...</p>

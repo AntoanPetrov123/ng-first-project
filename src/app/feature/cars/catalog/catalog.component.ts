@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CarsService } from 'src/app/core/cars.service';
 import { ICar } from 'src/app/core/interfaces';
 
@@ -10,8 +11,13 @@ import { ICar } from 'src/app/core/interfaces';
 export class CatalogComponent implements OnInit {
   loadedCarPosts: ICar[] = [];
   isLoading: boolean = false;
+  currentCar: ICar; 
 
-  constructor(private carsService: CarsService) { }
+  constructor(
+    private carsService: CarsService,
+    private activatedRoute: ActivatedRoute,
+    private router: Router
+  ) { }
 
   ngOnInit(): void {
     this.isLoading = true;
@@ -24,7 +30,24 @@ export class CatalogComponent implements OnInit {
     });
   }
 
-  
+  //11.04
+  details(carId: string): void {
+
+      this.carsService.loadCarById(carId).subscribe({
+        next: (params) => {
+          this.currentCar = {...params, id: carId} as ICar;
+          this.router.navigate([`/catalog/${this.currentCar.id}`]);
+        },
+        error: (error) => {
+          console.log(error);
+        }
+      });
+    // })
+  }
+
+
+
+
 
 
 }

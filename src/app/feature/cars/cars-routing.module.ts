@@ -12,6 +12,7 @@ const routes: Routes = [
   },
   {
     path: 'catalog/:carId',
+    canActivate: [AuthGuard],
     component: CarsDetailPageComponent
   },
   {

@@ -11,14 +11,18 @@ import { UserService } from '../user.service';
 export class HeaderComponent implements OnInit, OnDestroy {
 
   isLoggedIn: boolean = false;
+  username: string = 'Username';
   private userSub: Subscription;
 
   constructor(public userService: UserService, private router: Router) { }
 
- 
+
 
   ngOnInit(): void {
-    this.userSub = this.userService.user.subscribe( user => {
+    this.userSub = this.userService.user.subscribe(user => {
+      if (user) {
+        this.username = user.email.split('@')[0];
+      }
       this.isLoggedIn = !user ? false : true;
     });
   }

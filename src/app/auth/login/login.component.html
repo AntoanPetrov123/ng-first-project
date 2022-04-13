@@ -1,6 +1,6 @@
 <!-- <form [formGroup]="loginFormGroup"  (ngSubmit)="handleLogin(loginFormGroup)">
     <h2>Login Form</h2>
-    <p *ngIf="errorMessage" class="error">{{errorMessage}}</p>
+    <p *ngIf="errorMessage" class="error">{{errorMessage}}</p> 
   
     <input formControlName="email" placeholder="Email" name="email">
     <ng-container *ngIf="loginFormGroup.controls['email'].touched && loginFormGroup.controls['email'].invalid ">
@@ -31,7 +31,7 @@
 <form [formGroup]="loginFormGroup" (ngSubmit)="handleLogin(loginFormGroup)" class="form py-5">
     <h2 class="h3 mb-3 font-weight-normal">Login</h2>
   
-    <p *ngIf="errorMessage" class="error invalid-feedback">{{errorMessage}}</p>
+    <p *ngIf="errorMessage" class="error">{{errorMessage}}</p>
   
     <!-- we have to create property errorMessage as string in login.component -->
     <div class="form-group mb-3">
@@ -56,7 +56,7 @@
       <input
         formControlName="password"
         type="password"
-        placeholder="***"
+        placeholder="******"
         name="password"
         class="form-control"
         [class.is-invalid]="loginFormGroup.controls['password'].touched && loginFormGroup.controls['password'].invalid"

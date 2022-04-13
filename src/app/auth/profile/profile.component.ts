@@ -20,14 +20,7 @@ export class ProfileComponent implements OnInit {
   constructor(private userService: UserService, private router: Router) { }
 
   ngOnInit(): void {
-    this.userService.getProfile().subscribe({
-      next: (user) => {
-        this.user = user;
-      },
-      error: () => {
-        // this.router.navigate(['/login']);
-      }
-    })
+    this.userService.getProfile();
   }
 
   enterEditMode(): void {
@@ -36,7 +29,7 @@ export class ProfileComponent implements OnInit {
     setTimeout(() => {
       this.editProfileForm.form.patchValue({
         email: this.user.email,
-        // username: this.user.username,
+
       })
     });
   }

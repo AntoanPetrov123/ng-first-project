@@ -32,14 +32,14 @@ export class LoginComponent implements OnInit {
   }
   
   handleLogin(loginFormGroup: FormGroup): void {
-
+    
     if (loginFormGroup.invalid) {
       return;
     }
-
+    
     const email = loginFormGroup.value.email;
     const password = loginFormGroup.value.password;
-
+    
     this.userService.login(email, password).subscribe(responseData => {
       console.log(responseData);
     },
@@ -48,7 +48,8 @@ export class LoginComponent implements OnInit {
       this.errorMessage = errorMessage;
     });
     loginFormGroup.reset();
-
+    
+    this.router.navigate[('/catalog')];
   }
-
+  
 }
