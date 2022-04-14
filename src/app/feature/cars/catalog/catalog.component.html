@@ -23,9 +23,9 @@
                         <div class="card-body">
                             <h5 class="card-title">{{post.carName}}</h5>
                             <p class="card-text">{{post.description}}</p>
-                            <button (click)="like(post.id)" class="btn btn-primary">{{likeButtonName}} :
-                                {{totalLikes}}</button>
-                            |
+                            <p class="card-text">Likes: {{post.likes ? post.likes.length : 0}}</p>
+                            <button (click)="like(post.id)" class="btn btn-primary" *ngIf="isUserLogged">{{post.isLiked ? "Dislike" : "Like"}}</button>
+                            <span *ngIf="isUserLogged">|</span>
                             <button (click)="details(post.id)" class="btn btn-primary">Details</button>
                         </div>
                         <!-- <button >Like</button><h5>{{post.likes}}</h5> -->

@@ -3,6 +3,7 @@ export interface ICar {
   image: string;
   description: string;
   likes: string[];
+  isLiked?: boolean;
   id?: string;
   userId: string;
 }

@@ -1,5 +1,7 @@
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
 import { CarsService } from 'src/app/core/cars.service';
 import { ICar } from 'src/app/core/interfaces';
 import { UserService } from 'src/app/core/user.service';
@@ -13,24 +15,34 @@ export class CatalogComponent implements OnInit {
   loadedCarPosts: ICar[] = [];
   isLoading: boolean = false;
   currentCar: ICar;
-  likeButtonName: string = 'Like';
-  totalLikes: number;
+  subscription: Subscription;
+  isUserLogged:boolean = false;
 
   constructor(
     private carsService: CarsService,
     private userService: UserService,
-    private router: Router
+    private router: Router,
+    private http: HttpClient
   ) { }
 
   ngOnInit(): void {
     this.isLoading = true;
-    this.carsService.fetchCarPosts().subscribe({
-      next: (posts) => {
-        console.log(posts);
-        this.isLoading = false;
-        this.loadedCarPosts = posts;
+    this.subscription = this.userService.user.subscribe({
+      next: (userData) => {
+
+        const profileId = userData?.profileId;
+        this.isUserLogged = !!profileId;
+
+        this.carsService.fetchCarPosts().subscribe({
+          next: (posts) => {
+            this.isLoading = false;
+            this.loadedCarPosts = posts.map((car: ICar) => {
+              return { ...car, isLiked: !!(car.likes && car.likes.find((userId) => userId === profileId)) };
+            });
+          }
+        });
       }
-    });
+    })
   }
 
   //11.04
@@ -45,70 +57,40 @@ export class CatalogComponent implements OnInit {
         console.log(error);
       }
     });
-    // })
   }
 
   like(carId: string): void {
 
     this.carsService.loadCarById(carId).subscribe({
       next: (carData) => {
-        this.userService.user.subscribe({
-          next: (userData) => {
-            console.log(carData);
-            this.currentCar = { ...carData, likes: [] } as ICar;
-            // this.currentCar.likes.push(userData.id);
-            // console.log(userData.id);
-            let likes = this.currentCar.likes.length;
-            if (this.currentCar.likes.includes(userData.id)) {
-              
-              this.likeButtonName = 'Unlike';
-              
-              for (let i = 0; i < likes; i++) {
-                if (this.currentCar.likes[i] == userData.id) {
-                  this.currentCar.likes.splice(i, 1);
-                  this.likeButtonName = 'Like';
-                }
-              }
-            } else {
-              this.likeButtonName = 'Like';
-              this.currentCar.likes.push(userData.id);
-            }
-            console.log(this.currentCar);
+        const userData = this.userService.getUserData();
 
+        const currentLikes = carData.likes || [] as string[];
+        const currentIndex = currentLikes.indexOf(userData.profileId);
+
+        if (currentIndex >= 0) {
+          currentLikes.splice(currentIndex, 1);
+        } else {
+          currentLikes.push(userData.profileId);
+        }
+
+        this.http.put(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/cars/${carId}.json`, {
+          ...carData,
+          likes: currentLikes
+        }).subscribe({
+          next: () => {
+            const currentCar: ICar = this.loadedCarPosts.find((car) => car.id === carId);
+            currentCar.likes = currentLikes;
+            currentCar.isLiked = !!currentLikes.find((userId) => userId === userData.profileId);
           }
         })
-
       }
     })
   }
 
-  // this.userService.user.subscribe({
-  //   next: (data) => {
-  //     // this.isLoading = false;
-  //     console.log(data.posts, 'data posts');
-  //     // this.loadedCarPosts = data.posts;
-  //     for (let carPostId of data.posts) {
-  //       console.log(carPostId);
-  //       this.carsService.loadCarById(carPostId).subscribe({
-  //         next: (params) => {
-  //           this.currentCar = params;
-  //           this.currentCar.id = carPostId as any;
-  //           this.loadedCars.push(this.currentCar);
-  //           console.log(this.loadedCars, 'Params of current car');
-  //         },
-  //         error: (error) => {
-  //           console.log(error);
-  //         }
-  //       });
-
-  //       if (this.loadedCarIds) {
-  //         this.isEmpty = false;
-  //       }
-  //     }
-
-  //     }
-
-  // });
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 
 
 
