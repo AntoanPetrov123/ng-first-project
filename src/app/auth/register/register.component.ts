@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators, FormBuilder, NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UserService } from 'src/app/core/user.service';
@@ -36,8 +36,6 @@ export class RegisterComponent {
     private router: Router
   ) { }
 
-  // ngOnInit(): void {
-  // }
 
   handleRegister(registerFormGroup: FormGroup) {
 
@@ -47,10 +45,10 @@ export class RegisterComponent {
     const username = registerFormGroup.value.username;
     const email = registerFormGroup.value.email;
     const password = registerFormGroup.value.passwords.password;
- 
+
     this.userSevice.register(username, email, password).subscribe(responseData => {
       console.log(responseData);
-      this.router.navigate['/home'];//fix this
+      this.router.navigate(['/home']);
     },
       errorMessage => {
         console.log(errorMessage);
@@ -59,29 +57,6 @@ export class RegisterComponent {
     registerFormGroup.reset();
 
   }
-
-  //add user data
-  // firebase = 'https://console.firebase.google.com/project/instacar-project-ee1a1/authentication/users';
-  // createNewAccount(registerFormGroup: FormGroup): void {
-  //   const username = registerFormGroup.value.username;
-  //   const email = registerFormGroup.value.email;
-  //   const password = registerFormGroup.value.passwords.password;
-
-  //   const userAuth = this.firebase.auth().createUserWithEmailAndPassword(email, password);
-  //   var user = {
-  //     username: username,
-  //     uid: userAuth.uid,
-  //     email: userAuth.email
-  //   }
-  //   this.writeUserData(user);
-  // }
-
-  // writeUserData(user): void {
-  //   this.firebase.database().ref('users/' + user.uid).set(user).catch(error => {
-  //     console.log(error.message)
-  //   });
-  // }
-
   shouldShowErrorForControl(controlName: string, sourceGroup: FormGroup = this.registerFormGroup) {
     return sourceGroup.controls[controlName].touched && sourceGroup.controls[controlName].invalid
   }

@@ -2,7 +2,7 @@ export interface ICar {
   carName: string;
   image: string;
   description: string;
-  likes: [];
+  likes: string[];
   id?: string;
   userId: string;
 }

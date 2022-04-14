@@ -7,12 +7,12 @@ import { AuthGuard } from 'src/app/core/guards/auth.guard';
 const routes: Routes = [
   {
     path: 'catalog/new',
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     component: CarsNewPageComponent
   },
   {
     path: 'catalog/:carId',
-    canActivate: [AuthGuard],
+    // canActivate: [AuthGuard],
     component: CarsDetailPageComponent
   },
   {

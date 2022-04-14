@@ -19,8 +19,7 @@ export class ProfileComponent implements OnInit {
   isEmpty: boolean = true;
   loadedCarIds: string[] = [];
   loadedCars = [];
-  currentCar: { [key: string]: ICar; };
-
+  currentCar: ICar;
 
   isInEditMode: boolean = false;
 
@@ -28,37 +27,30 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     // this.isLoading = true;
-    this.userService.user.subscribe({
-      next: (data: any) => {
-        // this.isLoading = false;
-        console.log(data.posts, 'data posts');
-        // this.loadedCarPosts = data.posts;
-        for (let carPostId of data.posts) {
-          console.log(carPostId);
-          this.carsService.loadCarById(carPostId).subscribe({
-            next: (params) => {
-              this.currentCar = params;
-              this.currentCar.id = carPostId;
-              this.loadedCars.push(this.currentCar);
-              console.log(this.loadedCars, 'Params of current car');
-            },
-            error: (error) => {
-              console.log(error);
-            }
-          });
-  
-          if (this.loadedCarIds) {
-            this.isEmpty = false;
+    const user = this.userService.getUserData();
+    if (!user || !user.profileId) {
+      alert('No user logged');
+      return;
+    }
+
+    // this.loadedCarPosts = data.posts;
+    for (let carPostId of user.posts) {
+      this.carsService.loadCarById(carPostId).subscribe({
+        next: (params) => {
+          if (params) {
+            this.currentCar = params;
+            this.currentCar.id = carPostId;
+            this.loadedCars.push(this.currentCar);
           }
+        },
+        error: (error) => {
+          console.log(error);
         }
+      });
 
-        }
-        
-    });
+      if (this.loadedCarIds) {
+        this.isEmpty = false;
+      }
+    }
   }
-
-
-
-
-
 }

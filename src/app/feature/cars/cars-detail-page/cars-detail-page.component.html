@@ -1,55 +1,58 @@
-<form *ngIf="!isInEditMode">
-    <div>
-        <div class="flex">
-            <p>Car name: </p>
-            <p>{{ currentCar?.carName}}</p>
-        </div>
-        
-        <div class="flex">
-            <p>Image: </p>
-            <p>{{ currentCar?.image}}</p>
-        </div>
-        
-        <div class="flex">
-            <p>Description: </p>
-            <p>{{ currentCar?.description}}</p>
-        </div>
-        
-        <div class="flex">
-            <p>Likes: </p>
-            <p>{{ currentCar?.likes}}</p>
-        </div>
-        <button type="button" [disabled]="!canEdit" (click)="inEditMode()">Edit</button>
-    </div>
-</form>
-<form #newCarForm="ngForm" *ngIf="isInEditMode" (ngSubmit)="onEditCarPost(newCarForm.value)" >
-    <div>
-        <span>Edit a car post</span>
-    </div>
+<div class="container">
+    <form *ngIf="!isInEditMode">
+        <div>
+            <div class="flex">
+                <p>Car name: </p>
+                <p>{{ currentCar?.carName}}</p>
+            </div>
 
-    <div>
-        <label>Title</label>
-        <input #carName="ngModel" type="text" name="carName" ngModel id="carName" required minlength="3" placeholder="{{currentCar.carName}}" />
-        <!-- add validations: required minlength="5" -->
+            <div class="flex">
+                <p>Image: </p>
+                <p>{{ currentCar?.image}}</p>
+            </div>
 
-        <ng-container *ngIf="carName.touched && carName.invalid">
-            <p *ngIf="carName.errors.required" class="error">
-                Car name is required.
-            </p>
-            <p *ngIf="carName.errors.minlength" class="error">
-                Car name must be at least 3 characters long.
-            </p>
-        </ng-container>
-    </div>
-    <div>
-        <label>Photo</label>
-        <input #image="ngModel" type="text" class="inputFields" id="image" ngModel placeholder="{{currentCar.image}}" name="image" value="" />
-    </div>
-    <div>
-        <label>Post</label>
-        <!-- add ngModel to be sure that we have name in the input-->
-        <textarea #description="ngModel" ngModel type="text" name="description" id="description" rows="2" class="height"
-            required minlength="10" placeholder="{{currentCar.description}}">}</textarea>
+            <div class="flex">
+                <p>Description: </p>
+                <p>{{ currentCar?.description}}</p>
+            </div>
+
+            <div class="flex">
+                <p>Likes: </p>
+                <p>{{ currentCar?.likes}}</p>
+            </div>
+            <button type="button" [disabled]="!canEdit" (click)="inEditMode()">Edit</button>
+        </div>
+    </form>
+    <form #newCarForm="ngForm" *ngIf="isInEditMode" (ngSubmit)="onEditCarPost(newCarForm.value)">
+        <div>
+            <span>Edit a car post</span>
+        </div>
+
+        <div>
+            <label>Title</label>
+            <input #carName="ngModel" type="text" name="carName" ngModel id="carName" required minlength="3"
+                placeholder="{{currentCar.carName}}" />
+            <!-- add validations: required minlength="5" -->
+
+            <ng-container *ngIf="carName.touched && carName.invalid">
+                <p *ngIf="carName.errors.required" class="error">
+                    Car name is required.
+                </p>
+                <p *ngIf="carName.errors.minlength" class="error">
+                    Car name must be at least 3 characters long.
+                </p>
+            </ng-container>
+        </div>
+        <div>
+            <label>Photo</label>
+            <input #image="ngModel" type="text" class="inputFields" id="image" ngModel
+                placeholder="{{currentCar.image}}" name="image" value="" />
+        </div>
+        <div>
+            <label>Post</label>
+            <!-- add ngModel to be sure that we have name in the input-->
+            <textarea #description="ngModel" ngModel type="text" name="description" id="description" rows="2"
+                class="height" required minlength="10" placeholder="{{currentCar.description}}">}</textarea>
 
             <ng-container *ngIf="description.touched && description.invalid">
                 <p *ngIf="description.errors.required" class="error">
@@ -59,14 +62,15 @@
                     Car name must be at least 5 characters long.
                 </p>
             </ng-container>
-    </div>
-    <div>
-        <!-- add type="button" because we dont want to submit filled fields -->
-        <button type="button" routerLink="/catalog">Cancel</button>
-        <button [disabled]="newCarForm.invalid" >Save</button>
-        <button type="button" routerLink="/profile">View in profile</button>
+        </div>
+        <div>
+            <!-- add type="button" because we dont want to submit filled fields -->
+            <button type="button" routerLink="/catalog">Cancel</button>
+            <button [disabled]="newCarForm.invalid">Save</button>
+            <button type="button" routerLink="/profile">View in profile</button>
 
-    </div>
-    
+        </div>
 
-</form>
+
+    </form>
+</div>

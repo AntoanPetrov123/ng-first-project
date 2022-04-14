@@ -24,7 +24,6 @@ export class CarsNewPageComponent implements OnInit {
     this.isLoading = true;
     this.carsService.fetchCarPosts().subscribe({
       next: (posts) => {
-        console.log(posts, 'create post');
         this.isLoading = false;
         this.loadedCarPosts = posts;
       }
@@ -33,14 +32,6 @@ export class CarsNewPageComponent implements OnInit {
   }
 
   onCreateCarPost(postData: ICar): void {
-
-    //11.04
-    
-    this.userService.user.subscribe((data) => {
-      data.posts.push(postData.id);
-      console.log(data.posts);
-    })
-      
     this.carsService
       .createAndStoreCarPost(postData.carName, postData.image, postData.description, postData.likes);
   }

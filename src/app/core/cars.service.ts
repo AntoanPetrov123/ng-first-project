@@ -18,50 +18,40 @@ export class CarsService {
 
   ) { }
 
-  createAndStoreCarPost(carName: string, image: string, description: string, likes: []): void {
-    this.userService.user.subscribe((data) => {
-      console.log(data, 'data');
-      if(!data){
-        this.router.navigate[('/login')];
-      }
-      const currentUserId: string = data.id;
-      
-      console.log(data.id, 'ID');
+  createAndStoreCarPost(carName: string, image: string, description: string, likes: string[]): void {
 
+    const user = this.userService.getUserData();
+    if (!user || !user.profileId) {
+      alert('No user logged');
+      this.router.navigate[('/login')];
+      return;
+    }
 
-      const postData: ICar = { carName: carName, image: image, description: description, likes: likes, userId: currentUserId };
-      this.http.post('https://instacar-project-ee1a1-default-rtdb.firebaseio.com/cars.json',
-        postData).subscribe({
-          next: (car: any) => {
-            console.log(car);
-           
-              console.log(data, 'data');
-              
-              this.http.get(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/users/${data.profileId}.json`).subscribe({
-                next: (user: any) => {
-                  console.log(user, 'user');
-                  
-                  this.http.put(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/users/${data.profileId}.json`, {
-                    ...user,
-                    posts: user.posts ? [...user.posts, car.name] : [car.name]
-                  }).subscribe({
-                    next: (userData) => {
-                      console.log(userData);
-                    }
-                  })
+    const postData: ICar = { carName: carName, image: image, description: description, likes: likes, userId: user.profileId };
+    this.http.post('https://instacar-project-ee1a1-default-rtdb.firebaseio.com/cars.json',
+      postData).subscribe({
+        next: (car: any) => {
+
+          this.http.get(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/users/${user.profileId}.json`).subscribe({
+            next: (userData: any) => {
+
+              this.http.put(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/users/${user.profileId}.json`, {
+                ...userData,
+                posts: userData.posts ? [...userData.posts, car.name] : [car.name]
+              }).subscribe({
+                next: () => {
+                  this.userService.updateUserPosts();
                 }
+              })
+            }
 
-            })
-            this.router.navigate(['/catalog']);
-          },
-          error: (error) => {
-            console.error(error);
-          }
-        });
-    })
-
-
-    // console.log(postData);
+          })
+          this.router.navigate(['/catalog']);
+        },
+        error: (error) => {
+          console.error(error);
+        }
+      });
   }
 
   fetchCarPosts() {
@@ -79,14 +69,7 @@ export class CarsService {
       );
   }
 
-  //11.04
   loadCarById(id: string) {
-    return this.http.get<{ [key: string]: ICar }>(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/cars/${id}.json`);
+    return this.http.get<ICar>(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/cars/${id}.json`);
   }
-
-  // deleteCarPost(item: ICar) {
-
-  //   return this.http.delete(item.id);
-  // }
-
 }

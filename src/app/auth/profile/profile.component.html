@@ -1,15 +1,21 @@
-    <h3>My Posts:</h3>
+<h3>My Posts:</h3>
 
-   <div>
-        <p *ngIf="isEmpty"> No posts!</p>
-    <ul *ngIf="!isEmpty">
-       <li *ngFor="let post of loadedCars">
-           <h3>{{post.carName}}</h3>
-           <img src="{{post.image}}">
-           <h5>{{post.description}}</h5>
-           <button routerLink="/catalog/{{post.id}}">Edit</button>
-       </li>
-    </ul>
-    <!-- <p *ngIf="isLoading">Loading...</p> -->
-    </div> 
-    
+
+<div class="row">
+    <div class="row-xs-1" align="center">
+        <div class="card" style="width: 30rem;">
+            <p *ngIf="isEmpty"> No posts!</p>
+            <ul *ngIf="!isEmpty">
+                <li *ngFor="let post of loadedCars">
+                    <img src="{{post.image}}" class="card-img-top">
+                    <div class="card-body">
+                        <h5 class="card-title">{{post.carName}}</h5>
+                        <p class="card-text">{{post.description}}</p>
+                    </div>
+                    <button routerLink="/catalog/{{post.id}}" class="btn btn-primary">Details</button>
+                </li>
+            </ul>
+            <!-- <p *ngIf="isLoading">Loading...</p> -->
+        </div>
+    </div>
+</div>

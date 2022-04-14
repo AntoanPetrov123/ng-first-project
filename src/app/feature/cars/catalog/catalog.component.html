@@ -1,4 +1,4 @@
-<div>
+<!-- <div>
     <p *ngIf="loadedCarPosts.length < 1 && !isLoading"> No posts!</p>
 <ul *ngIf="loadedCarPosts.length >= 1 && !isLoading">
    <li *ngFor="let post of loadedCarPosts">
@@ -6,9 +6,34 @@
        <img src="{{post.image}}">
        <h5>{{post.description}}</h5>
        <button>Like</button><h5>{{post.likes}}</h5>
-       <!-- <mat-divider [inset]="true"></mat-divider> -->
        <button (click)="details(post.id)">Details</button>
    </li>
 </ul>
 <p *ngIf="isLoading">Loading...</p>
+</div> -->
+
+<div class="container">
+    <div class="row">
+        <div class="col-xs-1" align="center">
+            <div class="card" style="width: 30rem;">
+                <p *ngIf="loadedCarPosts.length < 1 && !isLoading"> No posts!</p>
+                <ul *ngIf="loadedCarPosts.length >= 1 && !isLoading">
+                    <li *ngFor="let post of loadedCarPosts">
+                        <img src="{{post.image}}" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title">{{post.carName}}</h5>
+                            <p class="card-text">{{post.description}}</p>
+                            <button (click)="like(post.id)" class="btn btn-primary">{{likeButtonName}} :
+                                {{totalLikes}}</button>
+                            |
+                            <button (click)="details(post.id)" class="btn btn-primary">Details</button>
+                        </div>
+                        <!-- <button >Like</button><h5>{{post.likes}}</h5> -->
+                        <!-- <mat-divider [inset]="true"></mat-divider> -->
+                    </li>
+                </ul>
+                <p *ngIf="isLoading">Loading...</p>
+            </div>
+        </div>
+    </div>
 </div>

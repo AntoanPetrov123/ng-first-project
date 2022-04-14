@@ -1,13 +1,9 @@
-
-<div>
-    <span>Create a new car post</span>
-</div>
-<form #newCarForm="ngForm" (ngSubmit)="onCreateCarPost(newCarForm.value)">
+<!-- <form #newCarForm="ngForm" (ngSubmit)="onCreateCarPost(newCarForm.value)">
+    <h2 class="h3 mb-3 font-weight-normal">Create a new car post</h2>
 
     <div>
         <label>Title</label>
         <input #carName="ngModel" type="text" name="carName" ngModel id="carName" required minlength="3">
-        <!-- add validations: required minlength="5" -->
 
         <ng-container *ngIf="carName.touched && carName.invalid">
             <p *ngIf="carName.errors.required" class="error">
@@ -24,7 +20,6 @@
     </div>
     <div>
         <label>Post</label>
-        <!-- add ngModel to be sure that we have name in the input-->
         <textarea #description="ngModel" ngModel type="text" name="description" id="description" rows="2" class="height"
             required minlength="10"></textarea>
 
@@ -38,10 +33,58 @@
             </ng-container>
     </div>
     <div>
-        <!-- add type="button" because we dont want to submit filled fields -->
         <button type="button" (click)="navigateHome()" class="cancel">Cancel</button>
         <button [disabled]="newCarForm.invalid" class="public">Post</button>
     </div>
     
 
-</form>
+</form> -->
+<div class="container">
+
+    <form #newCarForm="ngForm" (ngSubmit)="onCreateCarPost(newCarForm.value)" class="form py-5">
+        <h2 class="h3 mb-3 font-weight-normal">Create a new car post</h2>
+
+        <div class="form-group mb-3">
+            <label>Title</label>
+            <input #carName="ngModel" type="text" name="carName" ngModel id="carName" class="form-control" required
+                minlength="3">
+
+            <ng-container *ngIf="carName.touched && carName.invalid">
+                <p *ngIf="carName.errors.required" class="error">
+                    Car name is required.
+                </p>
+                <p *ngIf="carName.errors.minlength" class="error">
+                    Car name must be at least 3 characters long.
+                </p>
+            </ng-container>
+        </div>
+        <div class="form-group mb-3">
+            <label>Photo</label>
+            <input #image="ngModel" type="text" class="inputFields" id="image" ngModel placeholder="http:/..."
+                name="image" class=" form-control" />
+        </div>
+        <div class="form-group mb-3">
+            <label>Post</label>
+            <!-- add ngModel to be sure that we have name in the input-->
+            <textarea #description="ngModel" ngModel type="text" name="description" id="description" rows="2"
+                class="height" required minlength="10" class="form-control"></textarea>
+
+            <ng-container *ngIf="description.touched && description.invalid">
+                <p *ngIf="description.errors.required" class="error">
+                    Car description is required.
+                </p>
+                <p *ngIf="description.errors.minlength" class="error invalid-feedback">
+                    Car description must be at least 5 characters long.
+                </p>
+            </ng-container>
+        </div>
+        <div class="second">
+            <div class="col-md-12 text-center">
+                <button [disabled]="newCarForm.invalid" class="public" class="btn btn-primary btn-lg"
+                    class="btn btn-success">Post</button>
+                <button type="button" (click)="navigateHome()" class="cancel" class="btn btn-primary btn-lg"
+                    class="btn btn-danger">Cancel</button>
+            </div>
+        </div>
+    </form>
+</div>

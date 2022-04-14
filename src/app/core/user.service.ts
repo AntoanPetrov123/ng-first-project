@@ -89,10 +89,11 @@ export class UserService {
               next: (data: any) => {
                 let userId: string;
                 Object.entries(data).find(([id, profile]) => {
-                  if((profile as any).email == resData.email) {
+                  if ((profile as any).email == resData.email) {
                     userId = id;
-                }})
-                const user = {...data[userId], id: userId};
+                  }
+                })
+                const user = { ...data[userId], id: userId };
                 console.log(user, 'new user');
 
                 this.handleAuthentication(
@@ -103,7 +104,6 @@ export class UserService {
                   resData.idToken,
                   +resData.expiresIn
                 );
-                this.router.navigate['/home'];
               }
             })
           })
@@ -143,12 +143,29 @@ export class UserService {
     return throwError(errorMessage);
   }
 
-  updatePosts(posts: string[]) {
-    this.user.subscribe((userData: any) => {
+  // updatePosts(posts: string[]) {
+  //   this.user.subscribe((userData: any) => {
 
-      this.user.next({ ...userData, posts });
-    })
+  //     this.user.next({ ...userData, posts });
+  //   })
+  // }
 
+  getUserData() {
+    return this.user.getValue();
+  }
+
+  updateUserPosts() {
+    const userData = this.user.getValue();
+    if (userData?.profileId) {
+      this.http.get(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/users/${userData.profileId}.json`).subscribe({
+        next: (data: any) => {
+          if (data) {
+            this.user.next({
+              ...userData, posts: data.posts || []
+            } as User)
+          }
+        }
+      })
+    }
   }
 }
-
