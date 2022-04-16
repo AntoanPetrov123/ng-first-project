@@ -41,6 +41,7 @@ Have access to thei profiles where are their posts;
 - GET - See post details - /catalog/:carId - - Logged in users
 - PUT - Edit own posts details - /catalog/:carId - 'carName', 'image', 'description' - Logged in users (owner of post)
 - PUT - Like a post - /catalog - Logged in users (can Like all posts once)
+- GET - User profile - /profile - Logged in users (owner of profile)
 
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 13.3.1.
