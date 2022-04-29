@@ -51,19 +51,17 @@ export class UserService {
               email: email,
             }).subscribe({
               next: (user: any) => {
-                this.http.get(`https://instacar-project-ee1a1-default-rtdb.firebaseio.com/users/${user.name}.json`).subscribe({
-                  next: (data: any) => {
 
-                    this.handleAuthentication(
-                      resData.email,
-                      resData.localId,
-                      data.id,
-                      [],
-                      resData.idToken,
-                      +resData.expiresIn //convert in number
-                    );
-                  }
-                });
+                this.handleAuthentication(
+                  resData.email,
+                  resData.localId,
+                  user.name,
+                  [],
+                  resData.idToken,
+                  +resData.expiresIn //convert in number
+                );
+
+
               },
               error: (error) => {
                 console.log(error);
@@ -137,7 +135,7 @@ export class UserService {
         errorMessage = 'This email does not exist.';
         break;
       case 'INVALID_PASSWORD':
-        errorMessage = 'This password is not correct.';
+        errorMessage = 'This email or password is not correct.';
         break;
     }
     return throwError(errorMessage);

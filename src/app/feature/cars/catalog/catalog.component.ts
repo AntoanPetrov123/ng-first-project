@@ -1,3 +1,4 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -9,14 +10,26 @@ import { UserService } from 'src/app/core/user.service';
 @Component({
   selector: 'app-catalog',
   templateUrl: './catalog.component.html',
-  styleUrls: ['./catalog.component.css']
+  styleUrls: ['./catalog.component.css'],
+  animations: [
+    trigger('catalogAnimation', [      
+      transition('void => *', [
+        style({opacity: 0}),
+        animate(1000, style({opacity: 1}))
+      ]),
+      transition('* => void', [
+        animate(1000, style({opacity: 0}))
+      ])
+    ])
+  ]
 })
 export class CatalogComponent implements OnInit {
   loadedCarPosts: ICar[] = [];
-  isLoading: boolean = false;
   currentCar: ICar;
   subscription: Subscription;
+  isLoading: boolean = false;
   isUserLogged:boolean = false;
+  canDelete: boolean = false;
 
   constructor(
     private carsService: CarsService,
@@ -29,7 +42,8 @@ export class CatalogComponent implements OnInit {
     this.isLoading = true;
     this.subscription = this.userService.user.subscribe({
       next: (userData) => {
-
+        console.log(userData);
+        
         const profileId = userData?.profileId;
         this.isUserLogged = !!profileId;
 
@@ -88,14 +102,11 @@ export class CatalogComponent implements OnInit {
     })
   }
 
+  
+
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }
-
-
-
-
-
 }
 
 

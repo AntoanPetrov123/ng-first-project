@@ -11,6 +11,7 @@ import { FooterComponent } from './core/footer/footer.component';
 import { HeaderComponent } from './core/header/header.component';
 import { CarsModule } from './feature/cars/cars.module';
 import { PagesModule } from './feature/pages/pages.module';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [
@@ -24,8 +25,8 @@ import { PagesModule } from './feature/pages/pages.module';
     AppRoutingModule,
     CarsModule,
     PagesModule,
-    AuthModule
-
+    AuthModule,
+    BrowserAnimationsModule
   ],
   providers: [],
   bootstrap: [

@@ -8,6 +8,9 @@ const routes: Routes = [
     pathMatch: 'full',
     redirectTo: 'home'
   },
+  // {
+  //   // path: 'catalog', loadChildren: './feature/cars/cars.module.ts#CarsModule'
+  // },
   {
     path: 'home',
     component: HomePageComponent,

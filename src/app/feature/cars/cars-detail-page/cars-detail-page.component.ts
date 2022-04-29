@@ -16,11 +16,12 @@ export class CarsDetailPageComponent implements OnInit {
 
   @ViewChild('editCarPostForm') editCarPostForm: NgForm;
   currentCar: ICar;
+  currntUser: User;
   carId: string;
   isInEditMode: boolean = false;
   canEdit: boolean = false;
-  currntUser: User;
   subscription: Subscription;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private carsService: CarsService,

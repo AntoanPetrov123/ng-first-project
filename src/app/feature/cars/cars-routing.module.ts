@@ -19,8 +19,6 @@ const routes: Routes = [
     path: 'catalog',
     component: CatalogComponent
   },
-  
-  
 ];
 
 export const CarsRoutingModule = RouterModule.forChild(routes);

@@ -18,7 +18,7 @@
             <div class="card" style="width: 30rem;">
                 <p *ngIf="loadedCarPosts.length < 1 && !isLoading"> No posts!</p>
                 <ul *ngIf="loadedCarPosts.length >= 1 && !isLoading">
-                    <li *ngFor="let post of loadedCarPosts">
+                    <li [@catalogAnimation] *ngFor="let post of loadedCarPosts">
                         <img src="{{post.image}}" class="card-img-top">
                         <div class="card-body">
                             <h5 class="card-title">{{post.carName}}</h5>
@@ -26,7 +26,7 @@
                             <p class="card-text">Likes: {{post.likes ? post.likes.length : 0}}</p>
                             <button (click)="like(post.id)" class="btn btn-primary" *ngIf="isUserLogged">{{post.isLiked ? "Dislike" : "Like"}}</button>
                             <span *ngIf="isUserLogged">|</span>
-                            <button (click)="details(post.id)" class="btn btn-primary">Details</button>
+                            <button (click)="details(post.id) " class="btn btn-primary"  *ngIf="isUserLogged">Details</button>
                         </div>
                         <!-- <button >Like</button><h5>{{post.likes}}</h5> -->
                         <!-- <mat-divider [inset]="true"></mat-divider> -->
